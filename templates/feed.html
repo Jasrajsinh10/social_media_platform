@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vibe Feed</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">✦ Vibe</div>
+      <ul class="sidebar-nav">
+        <li><a href="/feed/" class="active"><span class="icon">🏠</span> Home Feed</a></li>
+        <li><a href="/follows/"><span class="icon">👥</span> People</a></li>
+        <li><a href="#" onclick="logout()"><span class="icon">🚪</span> Logout</a></li>
+      </ul>
+      <div class="sidebar-user" id="current-user">
+        <div class="avatar" id="user-avatar-initial"></div>
+        <div class="user-info">
+          <div class="user-name" id="user-name">Loading...</div>
+          <div class="user-role" id="user-role"></div>
+          <div class="user-stats">
+            <a href="/follows/?tab=followers" class="stat"><strong id="user-followers">0</strong> Followers</a>
+            <a href="/follows/?tab=following" class="stat"><strong id="user-following">0</strong> Following</a>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <h1 class="page-title">Feed</h1>
+
+      <!-- Create Post -->
+      <div class="create-post-card">
+        <form id="create-post-form" onsubmit="handleCreatePost(event)">
+          <textarea id="post-text" placeholder="What's happening?" required></textarea>
+          
+          <div class="media-preview" id="media-preview"></div>
+          
+          <div class="create-post-actions">
+            <div class="media-buttons">
+              <label class="media-btn">
+                <span>🖼️ Image</span>
+                <input type="file" id="post-image" accept="image/*" onchange="previewMedia(this, 'image')">
+              </label>
+              <label class="media-btn">
+                <span>🎥 Video</span>
+                <input type="file" id="post-video" accept="video/*" onchange="previewMedia(this, 'video')">
+              </label>
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm" id="submit-post-btn">Post</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Feed Container -->
+      <div id="feed-container">
+        <!-- Posts will be injected here via JS -->
+      </div>
+    </main>
+  </div>
+
+  <!-- Edit Post Modal -->
+  <div class="modal-overlay" id="edit-modal">
+    <div class="modal">
+      <h2>Edit Post</h2>
+      <form id="edit-post-form" onsubmit="handleUpdatePost(event)">
+        <input type="hidden" id="edit-post-id">
+        <textarea id="edit-post-text" required></textarea>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" onclick="closeEditModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="update-post-btn">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="{% static 'js/app.js' %}"></script>
+</body>
+</html>

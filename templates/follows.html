@@ -1,0 +1,132 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vibe – People</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <style>
+    .follows-tabs {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+    }
+    .follows-tab {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-family: var(--font);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 4px 8px;
+      position: relative;
+      transition: color var(--transition);
+    }
+    .follows-tab.active {
+      color: var(--accent);
+    }
+    .follows-tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: -13px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--accent);
+    }
+    .user-list {
+      display: grid;
+      gap: 16px;
+    }
+    .user-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      transition: border-color var(--transition);
+    }
+    .user-item:hover {
+      border-color: var(--border-hover);
+    }
+    .user-info-main {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .user-item .avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #fff;
+    }
+    .user-item .username {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    .empty-state {
+      text-align: center;
+      padding: 40px;
+      color: var(--text-muted);
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      border: 1px dashed var(--border);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">✦ Vibe</div>
+      <ul class="sidebar-nav">
+        <li><a href="/feed/"><span class="icon">🏠</span> Home Feed</a></li>
+        <li><a href="/follows/" class="active"><span class="icon">👥</span> People</a></li>
+        <li><a href="#" onclick="logout()"><span class="icon">🚪</span> Logout</a></li>
+      </ul>
+      <div class="sidebar-user" id="current-user">
+        <div class="avatar" id="user-avatar-initial"></div>
+        <div class="user-info">
+          <div class="user-name" id="user-name">Loading...</div>
+          <div class="user-role" id="user-role"></div>
+          <div class="user-stats">
+            <a href="/follows/?tab=followers" class="stat"><strong id="user-followers">0</strong> Followers</a>
+            <a href="/follows/?tab=following" class="stat"><strong id="user-following">0</strong> Following</a>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <h1 class="page-title">People</h1>
+
+      <div class="follows-tabs">
+        <button class="follows-tab active" id="tab-followers" onclick="switchFollowsTab('followers')">Followers</button>
+        <button class="follows-tab" id="tab-following" onclick="switchFollowsTab('following')">Following</button>
+      </div>
+
+      <div id="user-list-container" class="user-list">
+        <!-- Users will be injected here via JS -->
+        <div class="loading" style="text-align:center;">
+            <span class="spinner"></span> Loading...
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="{% static 'js/app.js' %}"></script>
+  <script src="{% static 'js/follows.js' %}"></script>
+</body>
+</html>
